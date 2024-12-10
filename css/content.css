@@ -1,0 +1,16 @@
+.timestamp-convert-btn {
+  position: absolute;
+  background: #333;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  z-index: 10000;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  transition: background-color 0.2s;
+}
+
+.timestamp-convert-btn:hover {
+  background: #444;
+} 
