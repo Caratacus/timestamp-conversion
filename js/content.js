@@ -27,79 +27,75 @@ function getTimezoneInfo(timezone) {
     timeZone: timezone,
     timeZoneName: 'short'
   });
-  const offset = formatter.format(date).split(' ').pop();
-  const abbreviation = shortFormatter.format(date).split(' ').pop();
-  return `${timezone} (${abbreviation}, ${offset})`;
+  const abbreviation = shortFormatter.format(date).split(' ').pop().replace('Time', '');
+  return `${timezone} (${abbreviation})`;
 }
 
 // 创建按钮样式
 const style = document.createElement('style');
 style.textContent = `
-  .timestamp-convert-btn {
-    position: absolute;
-    background: #333;
-    color: white;
-    padding: 5px 10px;
-    border-radius: 4px;
-    font-size: 12px;
-    cursor: pointer;
-    z-index: 10000;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-  }
-  .timestamp-convert-btn:hover {
-    background: #444;
-  }
   .timestamp-popup {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-    z-index: 10000;
-    min-width: 300px;
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    background: white !important;
+    padding: 20px !important;
+    border-radius: 8px !important;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2) !important;
+    z-index: 2147483647 !important;
+    min-width: 300px !important;
+    font-family: Arial, sans-serif !important;
+    display: block !important;
+  }
+  .timestamp-popup * {
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
   }
   .timestamp-popup h3 {
-    margin: 0 0 15px 0;
-    font-size: 16px;
-    color: #333;
+    margin: 0 0 15px 0 !important;
+    font-size: 16px !important;
+    color: #333 !important;
   }
   .timestamp-popup .time-row {
-    margin: 10px 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
+    margin: 10px 0 !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
   }
   .timestamp-popup .time-label {
-    color: #666;
-    flex-shrink: 0;
-    margin-right: 10px;
+    color: #666 !important;
+    flex-shrink: 0 !important;
+    margin-right: 10px !important;
   }
   .timestamp-popup .time-value {
-    color: #333;
-    font-weight: bold;
-    text-align: right;
-    word-break: break-all;
+    color: #333 !important;
+    font-weight: bold !important;
+    text-align: right !important;
+    word-break: break-all !important;
   }
   .timestamp-popup .close-btn {
-    position: absolute;
-    right: 10px;
-    top: 10px;
-    cursor: pointer;
-    color: #999;
-    font-size: 18px;
+    position: absolute !important;
+    right: 10px !important;
+    top: 10px !important;
+    cursor: pointer !important;
+    color: #999 !important;
+    font-size: 18px !important;
+    width: 20px !important;
+    height: 20px !important;
+    line-height: 20px !important;
+    text-align: center !important;
   }
   .timestamp-popup .close-btn:hover {
-    color: #666;
+    color: #666 !important;
   }
   .timestamp-popup .auto-close-timer {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    font-size: 12px;
-    color: #999;
+    position: absolute !important;
+    bottom: 10px !important;
+    right: 10px !important;
+    font-size: 12px !important;
+    color: #999 !important;
   }
 `;
 document.head.appendChild(style);
@@ -146,18 +142,24 @@ function createConvertButton(timestamp, x, y) {
   button.style.left = `${x}px`;
   button.style.top = `${y}px`;
   
-  button.onclick = (e) => {
+  button.addEventListener('click', function(e) {
     e.preventDefault();
     e.stopPropagation();
-    showTimestampPopup(timestamp);
+    try {
+      showTimestampPopup(timestamp);
+      console.log('显示弹出层', timestamp);
+    } catch (error) {
+      console.error('显示弹出层时出错:', error);
+    }
     button.remove();
-  };
+  });
   
   return button;
 }
 
 // 创建并显示弹出框
 function showTimestampPopup(timestamp) {
+  console.log('开始创建弹出层');
   // 移除已存在的弹窗
   const existingPopup = document.querySelector('.timestamp-popup');
   if (existingPopup) {
@@ -167,116 +169,111 @@ function showTimestampPopup(timestamp) {
   const popup = document.createElement('div');
   popup.className = 'timestamp-popup';
   
-  const convertedTime = convertTimestamp(timestamp);
-  const date = new Date(timestamp.length === 10 ? timestamp * 1000 : parseInt(timestamp));
-  const timezoneInfo = getTimezoneInfo(currentTimezone);
-  
-  popup.innerHTML = `
-    <div class="close-btn">&times;</div>
-    <h3>时间戳转换</h3>
-    <div class="time-row">
-      <span class="time-label">时间戳:</span>
-      <span class="time-value">${timestamp}</span>
-    </div>
-    <div class="time-row">
-      <span class="time-label">转换结果:</span>
-      <span class="time-value">${convertedTime}</span>
-    </div>
-    <div class="time-row">
-      <span class="time-label">时区:</span>
-      <span class="time-value">${timezoneInfo}</span>
-    </div>
-    <div class="auto-close-timer"></div>
-  `;
+  try {
+    const convertedTime = convertTimestamp(timestamp);
+    const date = new Date(timestamp.length === 10 ? timestamp * 1000 : parseInt(timestamp));
+    const timezoneInfo = getTimezoneInfo(currentTimezone);
+    
+    popup.innerHTML = `
+      <div class="close-btn">&times;</div>
+      <h3>时间戳转换</h3>
+      <div class="time-row">
+        <span class="time-label">时间戳:</span>
+        <span class="time-value">${timestamp}</span>
+      </div>
+      <div class="time-row">
+        <span class="time-label">转换结果:</span>
+        <span class="time-value">${convertedTime}</span>
+      </div>
+      <div class="time-row">
+        <span class="time-label">时区:</span>
+        <span class="time-value">${timezoneInfo}</span>
+      </div>
+      <div class="auto-close-timer"></div>
+    `;
 
-  document.body.appendChild(popup);
+    document.body.appendChild(popup);
+    console.log('弹出层已创建并添加到页面');
 
-  // 自动关闭倒计时
-  let remainingTime = Math.floor(autoCloseDelay / 1000);
-  const timerElement = popup.querySelector('.auto-close-timer');
-  
-  const updateTimer = () => {
-    if (remainingTime > 0) {
-      timerElement.textContent = `${remainingTime}秒后自动关闭`;
-      remainingTime--;
-    }
-  };
-  
-  updateTimer();
-  const timerInterval = setInterval(updateTimer, 1000);
+    let autoCloseTimer = null;
+    let timerInterval = null;
+    let remainingTime = Math.floor(autoCloseDelay / 1000);
+    const timerElement = popup.querySelector('.auto-close-timer');
+    
+    const updateTimer = () => {
+      if (remainingTime > 0) {
+        timerElement.textContent = `${remainingTime}秒后自动关闭`;
+        remainingTime--;
+      }
+    };
 
-  // 自动关闭定时器
-  const autoCloseTimer = setTimeout(() => {
-    popup.remove();
-    clearInterval(timerInterval);
-  }, autoCloseDelay);
+    const startTimer = () => {
+      remainingTime = Math.floor(autoCloseDelay / 1000);
+      updateTimer();
+      timerInterval = setInterval(updateTimer, 1000);
+      autoCloseTimer = setTimeout(() => {
+        popup.remove();
+        clearInterval(timerInterval);
+      }, autoCloseDelay);
+    };
 
-  // 点击关闭按钮关闭弹窗
-  const closeBtn = popup.querySelector('.close-btn');
-  closeBtn.onclick = () => {
-    popup.remove();
-    clearTimeout(autoCloseTimer);
-    clearInterval(timerInterval);
-  };
-
-  // 点击弹窗外部关闭弹窗
-  document.addEventListener('click', function closePopup(e) {
-    if (!popup.contains(e.target)) {
-      popup.remove();
+    const stopTimer = () => {
       clearTimeout(autoCloseTimer);
       clearInterval(timerInterval);
-      document.removeEventListener('click', closePopup);
-    }
-  });
+      timerElement.textContent = '自动关闭已暂停';
+    };
 
-  // 鼠标悬停时暂停自动关闭
-  popup.addEventListener('mouseenter', () => {
-    clearTimeout(autoCloseTimer);
-    clearInterval(timerInterval);
-    timerElement.textContent = '自动关闭已暂停';
-  });
-
-  // 鼠标离开时恢复自动关闭
-  popup.addEventListener('mouseleave', () => {
-    remainingTime = Math.floor(autoCloseDelay / 1000);
-    updateTimer();
-    const timerInterval = setInterval(updateTimer, 1000);
-    const autoCloseTimer = setTimeout(() => {
+    // 点击关闭按钮关闭弹窗
+    const closeBtn = popup.querySelector('.close-btn');
+    closeBtn.onclick = () => {
       popup.remove();
-      clearInterval(timerInterval);
-    }, autoCloseDelay);
-  });
+      stopTimer();
+    };
+
+    // 点击弹窗外部关闭弹窗
+    document.addEventListener('click', function closePopup(e) {
+      if (!popup.contains(e.target)) {
+        popup.remove();
+        stopTimer();
+        document.removeEventListener('click', closePopup);
+      }
+    });
+
+    // 鼠标悬停时暂停自动关闭
+    popup.addEventListener('mouseenter', stopTimer);
+
+    // 鼠标离开时开始计时
+    popup.addEventListener('mouseleave', startTimer);
+
+    // 初始启动计时器
+    startTimer();
+  } catch (error) {
+    console.error('显示弹出层时出错:', error);
+  }
 }
 
 // 监听选中文本事件
 document.addEventListener('mouseup', (e) => {
-  // 移除已存在的转换按钮
-  const existingBtn = document.querySelector('.timestamp-convert-btn');
-  if (existingBtn) {
-    existingBtn.remove();
-  }
-
-  const selection = window.getSelection();
-  const text = selection.toString().trim();
-  
-  if (timestampRegex.test(text)) {
-    const range = selection.getRangeAt(0);
-    const rect = range.getBoundingClientRect();
-    const button = createConvertButton(
-      text,
-      rect.left + window.scrollX,
-      rect.bottom + window.scrollY + 5
-    );
-    document.body.appendChild(button);
-  }
+  setTimeout(() => {
+    const selection = window.getSelection();
+    const text = selection.toString().trim();
+    
+    if (timestampRegex.test(text)) {
+      try {
+        showTimestampPopup(text);
+      } catch (error) {
+        console.error('显示弹出层时出错:', error);
+      }
+    }
+  }, 0);
 });
 
-// 点击页面时移除转换按钮
-document.addEventListener('mousedown', (e) => {
-  if (!e.target.classList.contains('timestamp-convert-btn')) {
-    const existingBtn = document.querySelector('.timestamp-convert-btn');
-    if (existingBtn) {
-      existingBtn.remove();
+// 点击页面时移除弹出层
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.timestamp-popup')) {
+    const existingPopup = document.querySelector('.timestamp-popup');
+    if (existingPopup) {
+      existingPopup.remove();
     }
   }
 }); 

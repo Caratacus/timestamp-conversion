@@ -20,7 +20,12 @@
     {
       "matches": ["<all_urls>"],
       "js": ["js/content.js"],
-      "css": ["css/content.css"]
+      "css": ["css/content.css"],
+      "run_at": "document_end"
     }
-  ]
+  ],
+  "web_accessible_resources": [{
+    "resources": ["css/*", "js/*"],
+    "matches": ["<all_urls>"]
+  }]
 } 
