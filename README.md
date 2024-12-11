@@ -71,6 +71,10 @@ The extension automatically detects your browser's language settings and display
   <img src="images/popup.png" alt="Popup Layer">
 </div>
 
+`1373731200` `1373731200000`
+
+👆 **Click the time stamp above to see the effect**
+
 ## Development
 
 ### Prerequisites
