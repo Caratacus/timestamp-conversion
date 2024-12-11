@@ -1,4 +1,4 @@
- # Timestamp Converter
+# Timestamp Converter
 
 <div align="center">
   <img src="images/icon128.png" alt="Timestamp Converter Logo" width="128" height="128">
@@ -13,6 +13,16 @@
 - 💫 Elegant macOS-style popup interface
 - ⚡️ Zero configuration required
 - 🔍 Works on any webpage
+- 🌍 Multi-language Support:
+  - English
+  - Français (French)
+  - Deutsch (German)
+  - Español (Spanish)
+  - 简体中文 (Simplified Chinese)
+  - 繁體中文 (Traditional Chinese)
+  - 日本語 (Japanese)
+  - 한국어 (Korean)
+  - ไทย (Thai)
 
 ## Installation
 
@@ -34,10 +44,26 @@ git clone https://github.com/yourusername/timestamp-conversion.git
 1. Select any Unix timestamp on a webpage (supports both 10-digit and 13-digit formats)
 2. A conversion popup will instantly appear with:
    - Original timestamp
-   - Converted human-readable date and time
-   - Current timezone information
+   - UTC time
+   - Local time with timezone information
 
-The popup will automatically close after 3 seconds, but this timer pauses when you hover over the popup.
+The popup will automatically close after a configurable delay (default: 5 seconds), and this timer pauses when you hover over the popup.
+
+## Language Settings
+
+The extension automatically detects your browser's language settings and displays content in your preferred language. You can manually switch between supported languages through the extension's popup interface.
+
+### Supported Languages
+
+- 🇺🇸 English
+- 🇫🇷 French (Français)
+- 🇩🇪 German (Deutsch)
+- 🇪🇸 Spanish (Español)
+- 🇨🇳 Simplified Chinese (简体中文)
+- 🇹🇼 Traditional Chinese (繁體中文)
+- 🇯🇵 Japanese (日本語)
+- 🇰🇷 Korean (한국어)
+- 🇹🇭 Thai (ไทย)
 
 ## Screenshots
 
@@ -56,4 +82,4 @@ This project is licensed under the Apache 2.0 License - see the [LICENSE](LICENS
 ## Acknowledgments
 
 - Inspired by the need for quick timestamp conversions during development
-- UI design inspired by macOS interface guidelines 
+- UI design inspired by macOS interface guidelines
