@@ -1,0 +1,92 @@
+{
+    "extName": {
+      "message": "时间戳转换工具",
+      "description": "Extension name"
+    },
+    "extDescription": {
+      "message": "一个优雅高效的时间戳转换工具，具有 macOS 风格界面",
+      "description": "Extension description"
+    },
+    "popupTitle": {
+      "message": "时间戳转换工具",
+      "description": "Popup window title"
+    },
+    "formatLabel": {
+      "message": "时间格式:",
+      "description": "Label for format selection"
+    },
+    "timezoneLabel": {
+      "message": "时区:",
+      "description": "Label for timezone selection"
+    },
+    "autoCloseLabel": {
+      "message": "自动关闭时间:",
+      "description": "Label for auto close time selection"
+    },
+    "autoCloseOption3s": {
+      "message": "3 秒",
+      "description": "3 seconds option"
+    },
+    "autoCloseOption5s": {
+      "message": "5 秒",
+      "description": "5 seconds option"
+    },
+    "autoCloseOption8s": {
+      "message": "8 秒",
+      "description": "8 seconds option"
+    },
+    "autoCloseOption10s": {
+      "message": "10 秒",
+      "description": "10 seconds option"
+    },
+    "autoCloseOption15s": {
+      "message": "15 秒",
+      "description": "15 seconds option"
+    },
+    "autoCloseOptionNever": {
+      "message": "不自动关闭",
+      "description": "Never auto close option"
+    },
+    "usageHint": {
+      "message": "点击页面上的时间戳即可转换",
+      "description": "Usage instruction"
+    },
+    "supportHint": {
+      "message": "支持10位（秒）和13位（毫秒）时间戳",
+      "description": "Support information"
+    },
+    "popupTimestamp": {
+      "message": "时间戳:",
+      "description": "Label for timestamp in popup"
+    },
+    "popupLocalTime": {
+      "message": "本地时间:",
+      "description": "Label for local time in popup"
+    },
+    "popupUTCTime": {
+      "message": "UTC时间:",
+      "description": "Label for UTC time in popup"
+    },
+    "popupTimezone": {
+      "message": "时区:",
+      "description": "Label for timezone in popup"
+    },
+    "autoCloseCountdown": {
+      "message": "$SECONDS$秒后自动关闭",
+      "description": "Auto close countdown text",
+      "placeholders": {
+        "seconds": {
+          "content": "$1",
+          "example": "5"
+        }
+      }
+    },
+    "autoClosePaused": {
+      "message": "自动关闭已暂停",
+      "description": "Auto close paused text"
+    },
+    "languageLabel": {
+      "message": "语言:",
+      "description": "Label for language selection"
+    }
+  } 

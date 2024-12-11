@@ -1,0 +1,92 @@
+{
+  "extName": {
+    "message": "Timestamp Converter",
+    "description": "Extension name"
+  },
+  "extDescription": {
+    "message": "A sleek and efficient Chrome extension for converting timestamps with a macOS-style interface",
+    "description": "Extension description"
+  },
+  "popupTitle": {
+    "message": "Timestamp Converter",
+    "description": "Popup window title"
+  },
+  "formatLabel": {
+    "message": "Time Format:",
+    "description": "Label for format selection"
+  },
+  "timezoneLabel": {
+    "message": "Timezone:",
+    "description": "Label for timezone selection"
+  },
+  "autoCloseLabel": {
+    "message": "Auto Close:",
+    "description": "Label for auto close time selection"
+  },
+  "autoCloseOption3s": {
+    "message": "3 seconds",
+    "description": "3 seconds option"
+  },
+  "autoCloseOption5s": {
+    "message": "5 seconds",
+    "description": "5 seconds option"
+  },
+  "autoCloseOption8s": {
+    "message": "8 seconds",
+    "description": "8 seconds option"
+  },
+  "autoCloseOption10s": {
+    "message": "10 seconds",
+    "description": "10 seconds option"
+  },
+  "autoCloseOption15s": {
+    "message": "15 seconds",
+    "description": "15 seconds option"
+  },
+  "autoCloseOptionNever": {
+    "message": "Never",
+    "description": "Never auto close option"
+  },
+  "usageHint": {
+    "message": "Select any timestamp on the page to convert",
+    "description": "Usage instruction"
+  },
+  "supportHint": {
+    "message": "Supports 10-digit (seconds) and 13-digit (milliseconds) timestamps",
+    "description": "Support information"
+  },
+  "popupTimestamp": {
+    "message": "Timestamp:",
+    "description": "Label for timestamp in popup"
+  },
+  "popupLocalTime": {
+    "message": "Local Time:",
+    "description": "Label for local time in popup"
+  },
+  "popupUTCTime": {
+    "message": "UTC Time:",
+    "description": "Label for UTC time in popup"
+  },
+  "popupTimezone": {
+    "message": "Timezone:",
+    "description": "Label for timezone in popup"
+  },
+  "autoCloseCountdown": {
+    "message": "Auto closing in $SECONDS$ seconds",
+    "description": "Auto close countdown text",
+    "placeholders": {
+      "seconds": {
+        "content": "$1",
+        "example": "5"
+      }
+    }
+  },
+  "autoClosePaused": {
+    "message": "Auto close paused",
+    "description": "Auto close paused text"
+  },
+  "languageLabel": {
+    "message": "Language:",
+    "description": "Label for language selection"
+  }
+} 

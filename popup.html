@@ -3,15 +3,23 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline';">
-  <title>时间戳转换工具</title>
+  <title data-i18n="popupTitle">Timestamp Converter</title>
   <link rel="stylesheet" href="css/popup.css">
 </head>
 <body>
   <div class="container">
-    <h1>时间戳转换工具</h1>
+    <h1 data-i18n="popupTitle">Timestamp Converter</h1>
     <div class="settings">
+      <div class="language-select">
+        <label data-i18n="languageLabel">Language:</label>
+        <select id="languageSelect">
+          <option value="en">English</option>
+          <option value="zh_CN">简体中文</option>
+          <option value="zh_TW">繁體中文</option>
+        </select>
+      </div>
       <div class="format-select">
-        <label>时间格式:</label>
+        <label data-i18n="formatLabel">Time Format:</label>
         <select id="formatSelect">
           <option value="YYYY-MM-DD HH:mm:ss">YYYY-MM-DD HH:mm:ss</option>
           <option value="YYYY/MM/DD HH:mm:ss">YYYY/MM/DD HH:mm:ss</option>
@@ -21,23 +29,24 @@
         </select>
       </div>
       <div class="timezone-select">
-        <label>时区:</label>
+        <label data-i18n="timezoneLabel">Timezone:</label>
         <select id="timezoneSelect"></select>
       </div>
       <div class="auto-close-select">
-        <label>自动关闭时间:</label>
+        <label data-i18n="autoCloseLabel">Auto Close:</label>
         <select id="autoCloseSelect">
-          <option value="3000">3 秒</option>
-          <option value="5000" selected>5 秒</option>
-          <option value="8000">8 秒</option>
-          <option value="10000">10 秒</option>
-          <option value="0">不自动关闭</option>
+          <option value="3000" data-i18n="autoCloseOption3s">3 seconds</option>
+          <option value="5000" data-i18n="autoCloseOption5s" selected>5 seconds</option>
+          <option value="8000" data-i18n="autoCloseOption8s">8 seconds</option>
+          <option value="10000" data-i18n="autoCloseOption10s">10 seconds</option>
+          <option value="15000" data-i18n="autoCloseOption15s">15 seconds</option>
+          <option value="0" data-i18n="autoCloseOptionNever">Never</option>
         </select>
       </div>
     </div>
     <div class="status">
-      <p>点击页面上的时间戳即可转换</p>
-      <p class="note">支持10位（秒）和13位（毫秒）时间戳</p>
+      <p data-i18n="usageHint">Select any timestamp on the page to convert</p>
+      <p class="note" data-i18n="supportHint">Supports 10-digit (seconds) and 13-digit (milliseconds) timestamps</p>
     </div>
   </div>
   <script src="js/popup.js"></script>

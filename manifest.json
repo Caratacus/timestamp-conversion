@@ -1,8 +1,9 @@
 {
   "manifest_version": 3,
-  "name": "时间戳转换工具",
+  "name": "__MSG_extName__",
   "version": "1.0",
-  "description": "便捷的时间戳转换工具，支持多种时间格式和时区设置",
+  "description": "__MSG_extDescription__",
+  "default_locale": "en",
   "icons": {
     "16": "images/icon16.png",
     "48": "images/icon48.png",

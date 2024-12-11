@@ -1,6 +1,88 @@
 let currentFormat = 'YYYY-MM-DD HH:mm:ss';
 let currentTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 let autoCloseDelay = 5000; // 默认5秒后自动关闭
+let currentLanguage = 'en'; // 默认语言
+
+// 翻译文本
+const translations = {
+  en: {
+    popupTitle: "Timestamp Converter",
+    popupTimestamp: "Timestamp:",
+    popupLocalTime: "Local Time:",
+    popupUTCTime: "UTC Time:",
+    popupTimezone: "Timezone:",
+    autoCloseCountdown: "Auto closing in $1 seconds",
+    autoClosePaused: "Auto close paused"
+  },
+  zh_CN: {
+    popupTitle: "时间戳转换工具",
+    popupTimestamp: "时间戳:",
+    popupLocalTime: "本地时间:",
+    popupUTCTime: "UTC时间:",
+    popupTimezone: "时区:",
+    autoCloseCountdown: "$1秒后自动关闭",
+    autoClosePaused: "自动关闭已暂停"
+  },
+  zh_TW: {
+    popupTitle: "時間戳轉換工具",
+    popupTimestamp: "時間戳:",
+    popupLocalTime: "本地時間:",
+    popupUTCTime: "UTC時間:",
+    popupTimezone: "時區:",
+    autoCloseCountdown: "$1秒後自動關閉",
+    autoClosePaused: "自動關閉已暫停"
+  },
+  ja: {
+    popupTitle: "タイムスタンプ変換ツール",
+    popupTimestamp: "タイムスタンプ:",
+    popupLocalTime: "ローカル時間:",
+    popupUTCTime: "UTC時間:",
+    popupTimezone: "タイムゾーン:",
+    autoCloseCountdown: "$1秒後に自動的に閉じます",
+    autoClosePaused: "自動閉じる停止中"
+  },
+  ko: {
+    popupTitle: "타임스탬프 변환 도구",
+    popupTimestamp: "타임스탬프:",
+    popupLocalTime: "현지 시간:",
+    popupUTCTime: "UTC 시간:",
+    popupTimezone: "시간대:",
+    autoCloseCountdown: "$1초 후 자동으로 닫힘",
+    autoClosePaused: "자동 닫기 일시 중지"
+  },
+  th: {
+    popupTitle: "เครื่องมือแปลงตราประทับเวลา",
+    popupTimestamp: "ตราประทับเวลา:",
+    popupLocalTime: "เวลาท้องถิ่น:",
+    popupUTCTime: "เวลา UTC:",
+    popupTimezone: "เขตเวลา:",
+    autoCloseCountdown: "ปิดอัตโนมัติใน $1 วินาที",
+    autoClosePaused: "หยุดการปิดอัตโนมัติ"
+  }
+};
+
+// 获取翻译文本
+function getMessage(key, substitutions = []) {
+  const text = translations[currentLanguage][key];
+  if (!text) return key;
+  return substitutions.reduce((str, sub, i) => str.replace(`$${i + 1}`, sub), text);
+}
+
+// 从存储中加载设置
+chrome.storage.local.get(['format', 'timezone', 'autoCloseDelay', 'language'], function(result) {
+  if (result.format) {
+    currentFormat = result.format;
+  }
+  if (result.timezone) {
+    currentTimezone = result.timezone;
+  }
+  if (result.autoCloseDelay !== undefined) {
+    autoCloseDelay = parseInt(result.autoCloseDelay);
+  }
+  if (result.language) {
+    currentLanguage = result.language;
+  }
+});
 
 // 监听来自popup的消息
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
@@ -10,19 +92,14 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.autoCloseDelay !== undefined) {
       autoCloseDelay = parseInt(request.autoCloseDelay);
     }
-  }
-});
-
-// 从存储中加载设置
-chrome.storage.local.get(['format', 'timezone', 'autoCloseDelay'], function(result) {
-  if (result.format) {
-    currentFormat = result.format;
-  }
-  if (result.timezone) {
-    currentTimezone = result.timezone;
-  }
-  if (result.autoCloseDelay !== undefined) {
-    autoCloseDelay = parseInt(result.autoCloseDelay);
+  } else if (request.type === 'updateLanguage') {
+    currentLanguage = request.language;
+    // 如果当前有弹出层，更新其文本
+    const popup = document.querySelector('.timestamp-popup');
+    if (popup) {
+      const timestamp = popup.querySelector('.time-value').textContent;
+      showTimestampPopup(timestamp);
+    }
   }
 });
 
@@ -55,11 +132,11 @@ style.textContent = `
     background: rgba(255, 255, 255, 0.95) !important;
     backdrop-filter: blur(10px) !important;
     -webkit-backdrop-filter: blur(10px) !important;
-    padding: 16px !important;
+    padding: 20px !important;
     border-radius: 10px !important;
     box-shadow: 0 2px 24px rgba(0, 0, 0, 0.1), 0 0 1px rgba(0, 0, 0, 0.2) !important;
     z-index: 2147483647 !important;
-    min-width: 280px !important;
+    min-width: 300px !important;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
     display: block !important;
     border: 0.5px solid rgba(0, 0, 0, 0.1) !important;
@@ -70,41 +147,41 @@ style.textContent = `
     box-sizing: border-box !important;
   }
   .timestamp-popup h3 {
-    margin: 0 0 12px 0 !important;
-    font-size: 13px !important;
+    margin: 0 0 15px 0 !important;
+    font-size: 16px !important;
     color: #1d1d1f !important;
     font-weight: 500 !important;
     letter-spacing: -0.2px !important;
   }
   .timestamp-popup .time-row {
-    margin: 6px 0 !important;
+    margin: 8px 0 !important;
     display: flex !important;
     justify-content: space-between !important;
     align-items: center !important;
-    padding: 3px 0 !important;
+    padding: 4px 0 !important;
   }
   .timestamp-popup .time-label {
     color: #86868b !important;
     flex-shrink: 0 !important;
     margin-right: 12px !important;
-    font-size: 12px !important;
+    font-size: 14px !important;
   }
   .timestamp-popup .time-value {
     color: #1d1d1f !important;
-    font-size: 12px !important;
+    font-size: 14px !important;
     text-align: right !important;
     word-break: break-all !important;
   }
   .timestamp-popup .close-btn {
     position: absolute !important;
-    right: 10px !important;
-    top: 10px !important;
+    right: 12px !important;
+    top: 12px !important;
     cursor: pointer !important;
     color: #86868b !important;
-    font-size: 14px !important;
-    width: 18px !important;
-    height: 18px !important;
-    line-height: 18px !important;
+    font-size: 16px !important;
+    width: 20px !important;
+    height: 20px !important;
+    line-height: 20px !important;
     text-align: center !important;
     border-radius: 50% !important;
     transition: all 0.2s ease !important;
@@ -115,9 +192,9 @@ style.textContent = `
   }
   .timestamp-popup .auto-close-timer {
     position: absolute !important;
-    bottom: 10px !important;
-    right: 10px !important;
-    font-size: 10px !important;
+    bottom: 12px !important;
+    right: 12px !important;
+    font-size: 12px !important;
     color: #86868b !important;
   }
 `;
@@ -202,21 +279,21 @@ function showTimestampPopup(timestamp) {
     
     popup.innerHTML = `
       <div class="close-btn">&times;</div>
-      <h3>时间戳转换</h3>
+      <h3>${getMessage('popupTitle')}</h3>
       <div class="time-row">
-        <span class="time-label">时间戳:</span>
+        <span class="time-label">${getMessage('popupTimestamp')}</span>
         <span class="time-value">${timestamp}</span>
       </div>
       <div class="time-row">
-        <span class="time-label">本地时间:</span>
-        <span class="time-value">${convertedTime}</span>
-      </div>
-      <div class="time-row">
-        <span class="time-label">UTC时间:</span>
+        <span class="time-label">${getMessage('popupUTCTime')}</span>
         <span class="time-value">${utcTime}</span>
       </div>
       <div class="time-row">
-        <span class="time-label">时区:</span>
+        <span class="time-label">${getMessage('popupLocalTime')}</span>
+        <span class="time-value">${convertedTime}</span>
+      </div>
+      <div class="time-row">
+        <span class="time-label">${getMessage('popupTimezone')}</span>
         <span class="time-value">${timezoneInfo}</span>
       </div>
       <div class="auto-close-timer"></div>
@@ -232,7 +309,7 @@ function showTimestampPopup(timestamp) {
     
     const updateTimer = () => {
       if (remainingTime > 0) {
-        timerElement.textContent = `${remainingTime}秒后自动关闭`;
+        timerElement.textContent = getMessage('autoCloseCountdown', [remainingTime.toString()]);
         remainingTime--;
       }
     };
@@ -250,7 +327,7 @@ function showTimestampPopup(timestamp) {
     const stopTimer = () => {
       clearTimeout(autoCloseTimer);
       clearInterval(timerInterval);
-      timerElement.textContent = '自动关闭已暂停';
+      timerElement.textContent = getMessage('autoClosePaused');
     };
 
     // 点击关闭按钮关闭弹窗
