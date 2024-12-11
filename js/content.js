@@ -14,6 +14,33 @@ const translations = {
     autoCloseCountdown: "Auto closing in $1 seconds",
     autoClosePaused: "Auto close paused"
   },
+  fr: {
+    popupTitle: "Convertisseur de Timestamp",
+    popupTimestamp: "Timestamp:",
+    popupLocalTime: "Heure locale:",
+    popupUTCTime: "Heure UTC:",
+    popupTimezone: "Fuseau horaire:",
+    autoCloseCountdown: "Fermeture dans $1 secondes",
+    autoClosePaused: "Fermeture automatique en pause"
+  },
+  de: {
+    popupTitle: "Zeitstempel-Konverter",
+    popupTimestamp: "Zeitstempel:",
+    popupLocalTime: "Lokale Zeit:",
+    popupUTCTime: "UTC-Zeit:",
+    popupTimezone: "Zeitzone:",
+    autoCloseCountdown: "Automatisches Schließen in $1 Sekunden",
+    autoClosePaused: "Automatisches Schließen pausiert"
+  },
+  es: {
+    popupTitle: "Conversor de Marca de Tiempo",
+    popupTimestamp: "Marca de tiempo:",
+    popupLocalTime: "Hora local:",
+    popupUTCTime: "Hora UTC:",
+    popupTimezone: "Zona horaria:",
+    autoCloseCountdown: "Cerrando en $1 segundos",
+    autoClosePaused: "Cierre automático pausado"
+  },
   zh_CN: {
     popupTitle: "时间戳转换工具",
     popupTimestamp: "时间戳:",
@@ -274,8 +301,8 @@ function showTimestampPopup(timestamp) {
     const date = new Date(timestamp.length === 10 ? timestamp * 1000 : parseInt(timestamp));
     const timezoneInfo = getTimezoneInfo(currentTimezone);
     
-    // 获取UTC时间
-    const utcTime = date.toISOString().replace('T', ' ').replace(/\.\d{3}Z$/, ' UTC');
+    // 获取UTC时间，不显示UTC标识
+    const utcTime = date.toISOString().replace('T', ' ').replace(/\.\d{3}Z$/, '');
     
     popup.innerHTML = `
       <div class="close-btn">&times;</div>

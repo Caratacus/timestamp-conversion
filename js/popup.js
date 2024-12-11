@@ -21,6 +21,51 @@ document.addEventListener('DOMContentLoaded', function() {
       supportHint: "Supports 10-digit (seconds) and 13-digit (milliseconds) timestamps",
       languageLabel: "Language:"
     },
+    fr: {
+      popupTitle: "Convertisseur de Timestamp",
+      formatLabel: "Format de l'heure:",
+      timezoneLabel: "Fuseau horaire:",
+      autoCloseLabel: "Fermeture auto:",
+      autoCloseOption3s: "3 secondes",
+      autoCloseOption5s: "5 secondes",
+      autoCloseOption8s: "8 secondes",
+      autoCloseOption10s: "10 secondes",
+      autoCloseOption15s: "15 secondes",
+      autoCloseOptionNever: "Jamais",
+      usageHint: "Sélectionnez un timestamp sur la page pour le convertir",
+      supportHint: "Prend en charge les timestamps à 10 chiffres (secondes) et 13 chiffres (millisecondes)",
+      languageLabel: "Langue:"
+    },
+    de: {
+      popupTitle: "Zeitstempel-Konverter",
+      formatLabel: "Zeitformat:",
+      timezoneLabel: "Zeitzone:",
+      autoCloseLabel: "Auto-Schließen:",
+      autoCloseOption3s: "3 Sekunden",
+      autoCloseOption5s: "5 Sekunden",
+      autoCloseOption8s: "8 Sekunden",
+      autoCloseOption10s: "10 Sekunden",
+      autoCloseOption15s: "15 Sekunden",
+      autoCloseOptionNever: "Nie",
+      usageHint: "Wählen Sie einen Zeitstempel auf der Seite zum Konvertieren",
+      supportHint: "Unterstützt 10-stellige (Sekunden) und 13-stellige (Millisekunden) Zeitstempel",
+      languageLabel: "Sprache:"
+    },
+    es: {
+      popupTitle: "Conversor de Marca de Tiempo",
+      formatLabel: "Formato de hora:",
+      timezoneLabel: "Zona horaria:",
+      autoCloseLabel: "Cierre automático:",
+      autoCloseOption3s: "3 segundos",
+      autoCloseOption5s: "5 segundos",
+      autoCloseOption8s: "8 segundos",
+      autoCloseOption10s: "10 segundos",
+      autoCloseOption15s: "15 segundos",
+      autoCloseOptionNever: "Nunca",
+      usageHint: "Seleccione cualquier marca de tiempo en la página para convertir",
+      supportHint: "Compatible con marcas de tiempo de 10 dígitos (segundos) y 13 dígitos (milisegundos)",
+      languageLabel: "Idioma:"
+    },
     zh_CN: {
       popupTitle: "时间戳转换工具",
       formatLabel: "时间格式:",
@@ -243,6 +288,9 @@ document.addEventListener('DOMContentLoaded', function() {
   // 初始化语言选择器
   const languageOptions = [
     { value: 'en', label: 'English' },
+    { value: 'fr', label: 'Français' },
+    { value: 'de', label: 'Deutsch' },
+    { value: 'es', label: 'Español' },
     { value: 'zh_CN', label: '简体中文' },
     { value: 'zh_TW', label: '繁體中文' },
     { value: 'ja', label: '日本語' },
