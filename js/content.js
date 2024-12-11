@@ -1,15 +1,28 @@
 let currentFormat = 'YYYY-MM-DD HH:mm:ss';
 let currentTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-let autoCloseDelay = 3000; // 默认3秒后自动关闭
+let autoCloseDelay = 5000; // 默认5秒后自动关闭
 
 // 监听来自popup的消息
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.type === 'updateSettings') {
     currentFormat = request.format;
     currentTimezone = request.timezone;
-    if (request.autoCloseDelay) {
-      autoCloseDelay = request.autoCloseDelay;
+    if (request.autoCloseDelay !== undefined) {
+      autoCloseDelay = parseInt(request.autoCloseDelay);
     }
+  }
+});
+
+// 从存储中加载设置
+chrome.storage.local.get(['format', 'timezone', 'autoCloseDelay'], function(result) {
+  if (result.format) {
+    currentFormat = result.format;
+  }
+  if (result.timezone) {
+    currentTimezone = result.timezone;
+  }
+  if (result.autoCloseDelay !== undefined) {
+    autoCloseDelay = parseInt(result.autoCloseDelay);
   }
 });
 
@@ -39,14 +52,17 @@ style.textContent = `
     top: 50% !important;
     left: 50% !important;
     transform: translate(-50%, -50%) !important;
-    background: white !important;
-    padding: 20px !important;
-    border-radius: 8px !important;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.2) !important;
+    background: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    padding: 16px !important;
+    border-radius: 10px !important;
+    box-shadow: 0 2px 24px rgba(0, 0, 0, 0.1), 0 0 1px rgba(0, 0, 0, 0.2) !important;
     z-index: 2147483647 !important;
-    min-width: 300px !important;
-    font-family: Arial, sans-serif !important;
+    min-width: 280px !important;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
     display: block !important;
+    border: 0.5px solid rgba(0, 0, 0, 0.1) !important;
   }
   .timestamp-popup * {
     margin: 0 !important;
@@ -54,24 +70,28 @@ style.textContent = `
     box-sizing: border-box !important;
   }
   .timestamp-popup h3 {
-    margin: 0 0 15px 0 !important;
-    font-size: 16px !important;
-    color: #333 !important;
+    margin: 0 0 12px 0 !important;
+    font-size: 13px !important;
+    color: #1d1d1f !important;
+    font-weight: 500 !important;
+    letter-spacing: -0.2px !important;
   }
   .timestamp-popup .time-row {
-    margin: 10px 0 !important;
+    margin: 6px 0 !important;
     display: flex !important;
     justify-content: space-between !important;
     align-items: center !important;
+    padding: 3px 0 !important;
   }
   .timestamp-popup .time-label {
-    color: #666 !important;
+    color: #86868b !important;
     flex-shrink: 0 !important;
-    margin-right: 10px !important;
+    margin-right: 12px !important;
+    font-size: 12px !important;
   }
   .timestamp-popup .time-value {
-    color: #333 !important;
-    font-weight: bold !important;
+    color: #1d1d1f !important;
+    font-size: 12px !important;
     text-align: right !important;
     word-break: break-all !important;
   }
@@ -80,22 +100,25 @@ style.textContent = `
     right: 10px !important;
     top: 10px !important;
     cursor: pointer !important;
-    color: #999 !important;
-    font-size: 18px !important;
-    width: 20px !important;
-    height: 20px !important;
-    line-height: 20px !important;
+    color: #86868b !important;
+    font-size: 14px !important;
+    width: 18px !important;
+    height: 18px !important;
+    line-height: 18px !important;
     text-align: center !important;
+    border-radius: 50% !important;
+    transition: all 0.2s ease !important;
   }
   .timestamp-popup .close-btn:hover {
-    color: #666 !important;
+    background-color: rgba(0, 0, 0, 0.05) !important;
+    color: #1d1d1f !important;
   }
   .timestamp-popup .auto-close-timer {
     position: absolute !important;
     bottom: 10px !important;
     right: 10px !important;
-    font-size: 12px !important;
-    color: #999 !important;
+    font-size: 10px !important;
+    color: #86868b !important;
   }
 `;
 document.head.appendChild(style);
@@ -174,6 +197,9 @@ function showTimestampPopup(timestamp) {
     const date = new Date(timestamp.length === 10 ? timestamp * 1000 : parseInt(timestamp));
     const timezoneInfo = getTimezoneInfo(currentTimezone);
     
+    // 获取UTC时间
+    const utcTime = date.toISOString().replace('T', ' ').replace(/\.\d{3}Z$/, ' UTC');
+    
     popup.innerHTML = `
       <div class="close-btn">&times;</div>
       <h3>时间戳转换</h3>
@@ -182,8 +208,12 @@ function showTimestampPopup(timestamp) {
         <span class="time-value">${timestamp}</span>
       </div>
       <div class="time-row">
-        <span class="time-label">转换结果:</span>
+        <span class="time-label">本地时间:</span>
         <span class="time-value">${convertedTime}</span>
+      </div>
+      <div class="time-row">
+        <span class="time-label">UTC时间:</span>
+        <span class="time-value">${utcTime}</span>
       </div>
       <div class="time-row">
         <span class="time-label">时区:</span>

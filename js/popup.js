@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
   const formatSelect = document.getElementById('formatSelect');
   const timezoneSelect = document.getElementById('timezoneSelect');
+  const autoCloseSelect = document.getElementById('autoCloseSelect');
   
   // 填充时区选择器
   const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -68,12 +69,15 @@ document.addEventListener('DOMContentLoaded', function() {
   });
   
   // 从存储中加载设置
-  chrome.storage.local.get(['format', 'timezone'], function(result) {
+  chrome.storage.local.get(['format', 'timezone', 'autoCloseDelay'], function(result) {
     if (result.format) {
       formatSelect.value = result.format;
     }
     if (result.timezone) {
       timezoneSelect.value = result.timezone;
+    }
+    if (result.autoCloseDelay !== undefined) {
+      autoCloseSelect.value = result.autoCloseDelay.toString();
     }
   });
   
@@ -81,7 +85,8 @@ document.addEventListener('DOMContentLoaded', function() {
   function updateSettings() {
     const settings = {
       format: formatSelect.value,
-      timezone: timezoneSelect.value
+      timezone: timezoneSelect.value,
+      autoCloseDelay: parseInt(autoCloseSelect.value)
     };
     
     // 保存设置
@@ -98,4 +103,5 @@ document.addEventListener('DOMContentLoaded', function() {
   
   formatSelect.addEventListener('change', updateSettings);
   timezoneSelect.addEventListener('change', updateSettings);
+  autoCloseSelect.addEventListener('change', updateSettings);
 }); 
