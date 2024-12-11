@@ -67,7 +67,9 @@ The extension automatically detects your browser's language settings and display
 
 ## Screenshots
 
-[Add screenshots here]
+<div align="center">
+  <img src="images/popup.png" alt="Popup Layer">
+</div>
 
 ## Development
 
