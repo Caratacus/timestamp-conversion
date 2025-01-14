@@ -32,7 +32,7 @@ Or install manually:
 
 1. Clone this repository
 ```bash
-git clone https://github.com/yourusername/timestamp-conversion.git
+git clone git@github.com:Caratacus/timestamp-conversion.git
 ```
 
 2. Open Chrome and navigate to `chrome://extensions/`
