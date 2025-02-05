@@ -26,7 +26,7 @@
 
 ## Installation
 
-1. Download from Chrome Web Store (Coming soon)
+1. Download from Chrome Web Store, [Timestamp Converter](https://chromewebstore.google.com/detail/timestamp-converter/nihpakehgihjnpaoeddnjaghieegmjgo)
 
 Or install manually:
 
